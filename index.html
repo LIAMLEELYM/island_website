@@ -230,24 +230,67 @@
     @keyframes spin { to { transform: rotate(360deg); } }
 
     @media (max-width: 768px) {
-      .top-nav { height: 60px; padding: 0 16px; }
-      .nav-links { display: none; }
+      /* 頂部極簡導航 */
+      nav.top-nav { height: 50px; padding: 0 16px; }
+      .brand-logo h1 { font-size: 16px; letter-spacing: 1.5px; }
+      .brand-logo span { font-size: 9px; padding-left: 6px; }
+      .nav-links { display: flex !important; }
+      .nav-links button:not(.lang-switch-btn) { display: none; }
+      .lang-switch-btn { margin-left: 0; padding: 4px 10px !important; font-size: 11px !important; }
 
+      /* 左側文字收窄置頂，留出下半部空間給 3D 小島 */
       .hero-container {
-        top: 80px; left: 16px; right: 16px; transform: none;
-        width: calc(100vw - 32px); min-width: unset; max-width: unset;
+        top: 56px !important;
+        left: 18px !important;
+        right: 18px !important;
+        transform: none !important;
+        width: calc(100vw - 36px) !important;
+        min-width: unset !important;
+        max-width: unset !important;
         text-align: left;
+        pointer-events: none;
       }
-      .hero-title { font-size: 28px; margin-bottom: 10px; }
-      .hero-desc { font-size: 13px; line-height: 1.6; margin-bottom: 14px; }
-      .hero-cta { padding: 8px 18px; font-size: 12px; }
-      .hero-footer-tag { display: none; }
+      .hero-subtag { font-size: 10px; margin-bottom: 6px; letter-spacing: 1.5px; }
+      .hero-subtag::before { width: 14px; }
+      .hero-title { font-size: 24px !important; line-height: 1.18; margin-bottom: 6px !important; }
+      .hero-title .sparkle { font-size: 18px; }
+      .hero-desc { font-size: 12px !important; line-height: 1.5; margin-bottom: 10px !important; }
+      .hero-cta { padding: 6px 14px !important; font-size: 11px !important; border-radius: 18px !important; }
+      .hero-footer-tag { display: none !important; }
 
-      .bottom-capsule-bar {
-        bottom: 16px; padding: 4px 8px; gap: 4px;
+      /* 3D 懸浮標籤縮小，避免互相擠壓 */
+      .pin-label {
+        padding: 3px 8px !important;
+        font-size: 11px !important;
+        border-radius: 14px !important;
       }
-      .capsule-btn { padding: 6px 12px; font-size: 12px; }
-      .pin-label { padding: 4px 8px; font-size: 11px; }
+      .pin-num { width: 14px !important; height: 14px !important; font-size: 9px !important; }
+
+      /* 底部膠囊導航：自適應等分 100% 寬度，絕不截斷！ */
+      .bottom-capsule-bar {
+        bottom: 12px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        width: calc(100vw - 16px) !important;
+        max-width: 440px !important;
+        padding: 4px !important;
+        border-radius: 30px !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        gap: 2px !important;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.08) !important;
+      }
+      .capsule-btn {
+        padding: 6px 4px !important;
+        font-size: 11px !important;
+        border-radius: 18px !important;
+        flex: 1 1 0px !important;
+        min-width: 0 !important;
+        justify-content: center !important;
+        gap: 2px !important;
+        white-space: nowrap !important;
+      }
+      .capsule-btn span.num { font-size: 10px !important; }
     }
   </style>
 </head>
@@ -544,9 +587,13 @@
     scene.background = new THREE.Color(0xf4eee1);
 
     const camera = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+    // 【手機端專屬位移】：X 居中，Y 軸大幅下移 2.8 單位，鏡頭拉遠拉高，徹底避開頂部文字！
     const islandOffsetX = isMobile ? 0 : 5.2;
-    const defaultCamPos = isMobile ? { x: 0, y: 13, z: 28 } : { x: -2.0, y: 11, z: 24 };
-    const defaultTarget = isMobile ? { x: 0, y: -0.5, z: 0 } : { x: islandOffsetX, y: 0.6, z: 0 };
+    const islandOffsetY = isMobile ? -2.8 : 0;
+
+    const defaultCamPos = isMobile ? { x: 0, y: 15, z: 32 } : { x: -2.0, y: 11, z: 24 };
+    const defaultTarget = isMobile ? { x: 0, y: -2.5, z: 0 } : { x: islandOffsetX, y: 0.6, z: 0 };
     camera.position.set(defaultCamPos.x, defaultCamPos.y, defaultCamPos.z);
 
     const renderer = new THREE.WebGLRenderer({ 
@@ -576,7 +623,7 @@
     scene.add(sunLight);
 
     const islandGroup = new THREE.Group();
-    islandGroup.position.set(islandOffsetX, isMobile ? -1.2 : 0, 0);
+    islandGroup.position.set(islandOffsetX, islandOffsetY, 0);
     scene.add(islandGroup);
 
     let mixerIsland = null;
@@ -886,7 +933,7 @@
 
       controls.update();
 
-      islandGroup.position.y = (isMobile ? -1.2 : 0) + Math.sin(Date.now() * 0.0015) * 0.08;
+      islandGroup.position.y = islandOffsetY + Math.sin(Date.now() * 0.0015) * 0.08;
 
       for (let i = 0; i < animatedWaterMaterials.length; i++) {
         animatedWaterMaterials[i].offset.y += 0.003;
