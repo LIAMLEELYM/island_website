@@ -313,6 +313,72 @@
       }
       .capsule-btn span.num { font-size: 11px !important; }
     }
+
+    /* 頂部極簡圓形雙語切換按鈕 (Circular Floating Lang Switcher) */
+    .lang-switch-btn {
+      background: rgba(255, 255, 255, 0.92) !important;
+      backdrop-filter: blur(12px) !important;
+      border: 1.5px solid var(--glass-border) !important;
+      height: 36px !important;
+      padding: 0 12px !important;
+      border-radius: 20px !important;
+      display: inline-flex !important;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06) !important;
+      transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+      margin-left: 8px;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .lang-switch-btn:hover {
+      background: #252422 !important;
+      border-color: #252422 !important;
+      transform: translateY(-1px) scale(1.05);
+      box-shadow: 0 6px 18px rgba(37, 36, 34, 0.18) !important;
+    }
+    .lang-switch-btn:hover .lang-circle-txt,
+    .lang-switch-btn:hover .lang-circle-icon {
+      color: #fff !important;
+    }
+    .lang-circle-icon {
+      font-size: 14px;
+      line-height: 1;
+      display: inline-block;
+    }
+    .lang-circle-txt {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0.5px;
+    }
+
+    @media (max-width: 768px) {
+      .lang-switch-btn {
+        width: 36px !important;
+        height: 36px !important;
+        padding: 0 !important;
+        border-radius: 50% !important;
+        margin-left: 0 !important;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.08) !important;
+      }
+      .lang-circle-icon { display: none !important; }
+      .lang-circle-txt { font-size: 13px !important; font-weight: 800 !important; }
+
+      .modal-overlay { padding: 12px !important; }
+      .modal-card {
+        padding: 24px 16px !important;
+        border-radius: 20px !important;
+        max-height: 88vh !important;
+        width: 100% !important;
+      }
+      .modal-card h2 { font-size: 19px !important; }
+      .modal-close { top: 12px !important; right: 12px !important; width: 30px !important; height: 30px !important; font-size: 18px !important; }
+    }
+
   </style>
 </head>
 <body>
@@ -401,31 +467,31 @@
             你好！我是 <b>Liam</b>，專注於 Vibe Coding、數據分析與企業自動化流程設計。
           </p>
 
-          <!-- 方案 B：同風格互動在線簡歷卡 -->
-          <div style="background:#f4eee1; padding:22px; border-radius:18px; margin-bottom:16px; border:1px solid rgba(210,200,180,0.6);">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-              <h3 style="font-size:16px; color:#2b2b2b; display:flex; align-items:center; gap:6px;">💼 現時工作經歷</h3>
-              <span style="font-size:12px; color:#c29b38; font-weight:600;">2024 – Current</span>
+          <!-- 方案 B：同風格互動在線簡歷卡 (手機端上下自適應排版) -->
+          <div style="background:#f4eee1; padding:20px 18px; border-radius:18px; margin-bottom:16px; border:1px solid rgba(210,200,180,0.6);">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
+              <h3 style="font-size:16px; color:#2b2b2b; display:flex; align-items:center; gap:6px; margin:0;">💼 現時工作經歷</h3>
+              <span style="font-size:12px; color:#c29b38; font-weight:700;">2024 – Current</span>
             </div>
 
-            <div style="margin-bottom:14px;">
-              <div style="display:flex; justify-content:space-between; font-size:14px; font-weight:700; color:#2b2b2b;">
-                <span>CLPS Global | Senior Business Operations Officer</span>
-                <span style="font-size:12px; font-weight:normal; color:#7a7365;">2025.07 – 至今</span>
+            <div style="margin-bottom:16px;">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:4px; margin-bottom:4px;">
+                <span style="font-size:14px; font-weight:700; color:#2b2b2b; flex:1 1 200px;">CLPS Global | Senior Business Operations Officer</span>
+                <span style="font-size:12px; font-weight:600; color:#7a7365; white-space:nowrap;">2025.07 – 至今</span>
               </div>
-              <p style="font-size:13px; line-height:1.7; color:#555045; margin-top:4px;">
-                • 跨團隊合作，設計端到端業務自動化流程，協助公司審批流程標準化。
-                • 持續優化基於LLM的候選人履歷解析系統，提升公司招募篩選人效。
+              <p style="font-size:13px; line-height:1.7; color:#555045; margin:6px 0 0 0;">
+                • 跨團隊合作，設計端到端業務自動化流程，協助公司審批流程標準化。<br>
+                • 持續優化基於 LLM 的候選人履歷解析系統，提升公司招募篩選人效。
               </p>
             </div>
 
-            <div style="margin-bottom:8px;">
-              <div style="display:flex; justify-content:space-between; font-size:14px; font-weight:700; color:#2b2b2b;">
-                <span>CMHK | Business Development Operations</span>
-                <span style="font-size:12px; font-weight:normal; color:#7a7365;">2024.06 – 2025.06</span>
+            <div style="margin-bottom:10px;">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:4px; margin-bottom:4px;">
+                <span style="font-size:14px; font-weight:700; color:#2b2b2b; flex:1 1 200px;">CMHK | Business Development Operations</span>
+                <span style="font-size:12px; font-weight:600; color:#7a7365; white-space:nowrap;">2024.06 – 2025.06</span>
               </div>
-              <p style="font-size:13px; line-height:1.7; color:#555045; margin-top:4px;">
-                • 主導跨職能團隊建立了用於監控業務績效指標的標準化框架，為數據驅動的決策提供支援。
+              <p style="font-size:13px; line-height:1.7; color:#555045; margin:6px 0 0 0;">
+                • 主導跨職能團隊建立了用於監控業務績效指標的標準化框架，為數據驅動的決策提供支援。<br>
                 • 進行數據分析，識別流程瓶頸並實施解決方案，提升整個海外業務的整體營運效率。
               </p>
             </div>
@@ -434,7 +500,7 @@
 
             <h3 style="font-size:16px; color:#2b2b2b; margin-bottom:10px; display:flex; align-items:center; gap:6px;">🎓 教育背景</h3>
             <p style="font-size:13px; line-height:1.8; color:#555045; margin:0;">
-              • <b>理學碩士 (Master of Science)</b> · 商業資訊系統 (Busniess Information Systems)<br>
+              • <b>理學碩士 (Master of Science)</b> · 商業資訊系統 (Business Information Systems)<br>
               • <b>經濟學學士 (Bachelor of Economics)</b> · 經濟學 (Economics)
             </p>
 
@@ -444,16 +510,15 @@
             <div style="display:flex; flex-wrap:wrap; gap:6px;">
               <span style="background:#fffdfa; padding:4px 10px; border-radius:12px; font-size:12px; color:#555045; border:1px solid #d0c8b6;">Python</span>
               <span style="background:#fffdfa; padding:4px 10px; border-radius:12px; font-size:12px; color:#555045; border:1px solid #d0c8b6;">SQL / Tableau</span>
-              <span style="background:#fffdfa; padding:4px 10px; border-radius:12px; font-size:12px; color:#555045; border:1px solid #d0c8b6;">Workflow standardization</span>
-              <span style="background:#fffdfa; padding:4px 10px; border-radius:12px; font-size:12px; color:#555045; border:1px solid #d0c8b6;">Data Analysis</span>
-              <span style="background:#fffdfa; padding:4px 10px; border-radius:12px; font-size:12px; color:#555045; border:1px solid #d0c8b6;">AI & Automation</span>
+              <span style="background:#fffdfa; padding:4px 10px; border-radius:12px; font-size:12px; color:#555045; border:1px solid #d0c8b6;">Vibe Coding</span>
+              <span style="background:#fffdfa; padding:4px 10px; border-radius:12px; font-size:12px; color:#555045; border:1px solid #d0c8b6;">AI Automation</span>
+              <span style="background:#fffdfa; padding:4px 10px; border-radius:12px; font-size:12px; color:#555045; border:1px solid #d0c8b6;">Three.js</span>
             </div>
           </div>
 
-          <!-- 保留備用 PDF 下載按鈕 -->
           <div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px;">
             <a href="resume.pdf" target="_blank" download style="color:#c29b38; font-weight:600; text-decoration:none; font-size:14px; display:inline-flex; align-items:center; gap:4px;">
-              📄 下載 PDF 格式履歷備份 ↗
+              📄 下載完整 PDF 簡歷 ↗
             </a>
           </div>
         `
@@ -468,41 +533,41 @@
           <span class="modal-tag">02 · 知識庫</span>
           <h2>🏞️ 瀑布 · Vibe Coding</h2>
           <p style="font-size:14px; color:#7a7365; margin-bottom:16px;">
-            點擊卡片可直接跳轉我最近Vibe Coding的作品：
+            點擊卡片可直接跳轉我最近 Vibe Coding 的作品：
           </p>
 
           <a href="https://eugenedolls.pages.dev/" target="_blank" rel="noopener noreferrer" style="text-decoration:none; display:block; margin-bottom:12px;">
-            <div style="background:#f4eee1; padding:18px 20px; border-radius:16px; border:1px solid rgba(210,200,180,0.5); transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.06)'; this.style.borderColor='#c29b38';" onmouseout="this.style.transform='none'; this.style.boxShadow='none'; this.style.borderColor='rgba(210,200,180,0.5)';">
-              <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-                <b style="color:#2b2b2b; font-size:15px;">🤖 搭建前端和後端管理系統 ↗</b>
-                <span style="font-size:11px; background:#fffdfa; padding:2px 8px; border-radius:10px; color:#c29b38; border:1px solid #d0c8b6;">系統搭建</span>
+            <div style="background:#f4eee1; padding:16px 18px; border-radius:16px; border:1px solid rgba(210,200,180,0.5); transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.06)'; this.style.borderColor='#c29b38';" onmouseout="this.style.transform='none'; this.style.boxShadow='none'; this.style.borderColor='rgba(210,200,180,0.5)';">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+                <b style="color:#2b2b2b; font-size:15px; line-height:1.4; flex:1 1 auto;">🤖 搭建前端和後端管理系統&nbsp;↗</b>
+                <span style="font-size:11px; background:#fffdfa; padding:3px 8px; border-radius:8px; color:#c29b38; border:1px solid #d0c8b6; white-space:nowrap; flex-shrink:0;">系統搭建</span>
               </div>
               <p style="font-size:13px; color:#555045; line-height:1.6; margin:8px 0 0 0;">
-                利用SupaBase數據庫和搭建API，實現高效的前端和後端管理系統。
+                利用 SupaBase 數據庫和搭建 API，實現高效的前端和後端管理系統。
               </p>
             </div>
           </a>
 
           <a href="https://feifeidali.pages.dev/" target="_blank" rel="noopener noreferrer" style="text-decoration:none; display:block; margin-bottom:12px;">
-            <div style="background:#f4eee1; padding:18px 20px; border-radius:16px; border:1px solid rgba(210,200,180,0.5); transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.06)'; this.style.borderColor='#c29b38';" onmouseout="this.style.transform='none'; this.style.boxShadow='none'; this.style.borderColor='rgba(210,200,180,0.5)';">
-              <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-                <b style="color:#2b2b2b; font-size:15px;">🗒️ 旅游攻略以及行程記錄 ↗</b>
-                <span style="font-size:11px; background:#fffdfa; padding:2px 8px; border-radius:10px; color:#3182ce; border:1px solid #d0c8b6;">網站設計</span>
+            <div style="background:#f4eee1; padding:16px 18px; border-radius:16px; border:1px solid rgba(210,200,180,0.5); transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.06)'; this.style.borderColor='#c29b38';" onmouseout="this.style.transform='none'; this.style.boxShadow='none'; this.style.borderColor='rgba(210,200,180,0.5)';">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+                <b style="color:#2b2b2b; font-size:15px; line-height:1.4; flex:1 1 auto;">🗒️ 旅遊攻略以及行程記錄&nbsp;↗</b>
+                <span style="font-size:11px; background:#fffdfa; padding:3px 8px; border-radius:8px; color:#3182ce; border:1px solid #d0c8b6; white-space:nowrap; flex-shrink:0;">網站設計</span>
               </div>
               <p style="font-size:13px; color:#555045; line-height:1.6; margin:8px 0 0 0;">
-                通過AI搭建網站並加入衛星地圖元素，可視化我的旅游攻略和行程記錄，更好地規劃旅程。
+                通過 AI 搭建網站並加入衛星地圖元素，可視化我的旅遊攻略和行程記錄，更好地規劃旅程。
               </p>
             </div>
           </a>
 
           <a href="https://x.com" target="_blank" rel="noopener noreferrer" style="text-decoration:none; display:block;">
-            <div style="background:#f4eee1; padding:18px 20px; border-radius:16px; border:1px solid rgba(210,200,180,0.5); transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.06)'; this.style.borderColor='#c29b38';" onmouseout="this.style.transform='none'; this.style.boxShadow='none'; this.style.borderColor='rgba(210,200,180,0.5)';">
-              <div style="display:flex; justify-content:space-between; align-items:flex-start;">
-                <b style="color:#2b2b2b; font-size:15px;">🎨 打造個性化個人主頁（本網站） ↗</b>
-                <span style="font-size:11px; background:#fffdfa; padding:2px 8px; border-radius:10px; color:#38a169; border:1px solid #d0c8b6;">前端 3D</span>
+            <div style="background:#f4eee1; padding:16px 18px; border-radius:16px; border:1px solid rgba(210,200,180,0.5); transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.06)'; this.style.borderColor='#c29b38';" onmouseout="this.style.transform='none'; this.style.boxShadow='none'; this.style.borderColor='rgba(210,200,180,0.5)';">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+                <b style="color:#2b2b2b; font-size:15px; line-height:1.4; flex:1 1 auto;">🎨 打造個性化個人主頁（本網站）&nbsp;↗</b>
+                <span style="font-size:11px; background:#fffdfa; padding:3px 8px; border-radius:8px; color:#38a169; border:1px solid #d0c8b6; white-space:nowrap; flex-shrink:0;">前端 3D</span>
               </div>
               <p style="font-size:13px; color:#555045; line-height:1.6; margin:8px 0 0 0;">
-                從 0 到 1 透過 Three.js 與 AI 3D生成工具打造專屬個人網站。
+                從 0 到 1 透過 Three.js 與 AI 3D 生成工具打造專屬個人網站。
               </p>
             </div>
           </a>
@@ -522,49 +587,49 @@
           </p>
 
           <a href="https://liamleelym.github.io/tableau-heatmap/" target="_blank" rel="noopener noreferrer" style="text-decoration:none; display:block; margin-bottom:12px;">
-            <div style="background:#f4eee1; padding:18px 20px; border-radius:16px; border:1px solid rgba(210,200,180,0.5); transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.06)'; this.style.borderColor='#c29b38';" onmouseout="this.style.transform='none'; this.style.boxShadow='none'; this.style.borderColor='rgba(210,200,180,0.5)';">
-              <div style="display:flex; justify-content:space-between; align-items:center;">
-                <b style="color:#2b2b2b; font-size:15px;">📊 Market heatmap Dashboard ↗</b>
-                <span style="font-size:12px; color:#7a7365; font-family:monospace;">Tableau / Python</span>
+            <div style="background:#f4eee1; padding:16px 18px; border-radius:16px; border:1px solid rgba(210,200,180,0.5); transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.06)'; this.style.borderColor='#c29b38';" onmouseout="this.style.transform='none'; this.style.boxShadow='none'; this.style.borderColor='rgba(210,200,180,0.5)';">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+                <b style="color:#2b2b2b; font-size:15px; line-height:1.4; flex:1 1 auto;">📊 Market Heatmap Dashboard&nbsp;↗</b>
+                <span style="font-size:11px; background:#fffdfa; padding:3px 8px; border-radius:8px; color:#7a7365; border:1px solid #d0c8b6; white-space:nowrap; flex-shrink:0;">Tableau / Python</span>
               </div>
               <p style="font-size:13px; color:#555045; line-height:1.6; margin:8px 0 0 0;">
-                S&P500 visualization dashboard integrating Yahoo Finance API
+                S&P500 visualization dashboard integrating Yahoo Finance API.
               </p>
             </div>
           </a>
 
           <a href="https://www.mdpi.com/2813-5288/2/3/14" target="_blank" rel="noopener noreferrer" style="text-decoration:none; display:block; margin-bottom:12px;">
-            <div style="background:#f4eee1; padding:18px 20px; border-radius:16px; border:1px solid rgba(210,200,180,0.5); transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.06)'; this.style.borderColor='#c29b38';" onmouseout="this.style.transform='none'; this.style.boxShadow='none'; this.style.borderColor='rgba(210,200,180,0.5)';">
-              <div style="display:flex; justify-content:space-between; align-items:center;">
-                <b style="color:#2b2b2b; font-size:15px;">📝 An article I published  ↗</b>
-                <span style="font-size:12px; color:#7a7365; font-family:monospace;">Crypto</span>
+            <div style="background:#f4eee1; padding:16px 18px; border-radius:16px; border:1px solid rgba(210,200,180,0.5); transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.06)'; this.style.borderColor='#c29b38';" onmouseout="this.style.transform='none'; this.style.boxShadow='none'; this.style.borderColor='rgba(210,200,180,0.5)';">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+                <b style="color:#2b2b2b; font-size:15px; line-height:1.4; flex:1 1 auto;">📝 An Article I Published&nbsp;↗</b>
+                <span style="font-size:11px; background:#fffdfa; padding:3px 8px; border-radius:8px; color:#c29b38; border:1px solid #d0c8b6; white-space:nowrap; flex-shrink:0;">Crypto</span>
               </div>
               <p style="font-size:13px; color:#555045; line-height:1.6; margin:8px 0 0 0;">
-                User Acceptance of Blockchain Technology in Financial Applications: Information Security, Technology Awareness and Privacy Aspects
+                User Acceptance of Blockchain Technology in Financial Applications: Information Security, Technology Awareness and Privacy Aspects.
               </p>
             </div>
           </a>
 
           <a href="https://liamleelym.github.io/Sentiment-Emotion-Analysis-in-Python/" target="_blank" rel="noopener noreferrer" style="text-decoration:none; display:block; margin-bottom:12px;">
-            <div style="background:#f4eee1; padding:18px 20px; border-radius:16px; border:1px solid rgba(210,200,180,0.5); transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.06)'; this.style.borderColor='#c29b38';" onmouseout="this.style.transform='none'; this.style.boxShadow='none'; this.style.borderColor='rgba(210,200,180,0.5)';">
-              <div style="display:flex; justify-content:space-between; align-items:center;">
-                <b style="color:#2b2b2b; font-size:15px;">💻 Machine Learning ↗</b>
-                <span style="font-size:12px; color:#7a7365; font-family:monospace;">Python / Machine Learning</span>
+            <div style="background:#f4eee1; padding:16px 18px; border-radius:16px; border:1px solid rgba(210,200,180,0.5); transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.06)'; this.style.borderColor='#c29b38';" onmouseout="this.style.transform='none'; this.style.boxShadow='none'; this.style.borderColor='rgba(210,200,180,0.5)';">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+                <b style="color:#2b2b2b; font-size:15px; line-height:1.4; flex:1 1 auto;">💻 Machine Learning Project&nbsp;↗</b>
+                <span style="font-size:11px; background:#fffdfa; padding:3px 8px; border-radius:8px; color:#3182ce; border:1px solid #d0c8b6; white-space:nowrap; flex-shrink:0;">Python / ML</span>
               </div>
               <p style="font-size:13px; color:#555045; line-height:1.6; margin:8px 0 0 0;">
-                Machine Learning - Sentiment Analysis and Emotion Analysis In Python For Airline Company
+                Sentiment Analysis and Emotion Analysis in Python for Airline Customer Satisfaction.
               </p>
             </div>
           </a>
 
           <a href="https://liamleelym.github.io/SQL-Project/" target="_blank" rel="noopener noreferrer" style="text-decoration:none; display:block;">
-            <div style="background:#f4eee1; padding:18px 20px; border-radius:16px; border:1px solid rgba(210,200,180,0.5); transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.06)'; this.style.borderColor='#c29b38';" onmouseout="this.style.transform='none'; this.style.boxShadow='none'; this.style.borderColor='rgba(210,200,180,0.5)';">
-              <div style="display:flex; justify-content:space-between; align-items:center;">
-                <b style="color:#2b2b2b; font-size:15px;">⚡ DataBase Design ↗</b>
-                <span style="font-size:12px; color:#7a7365; font-family:monospace;">SQL / Database</span>
+            <div style="background:#f4eee1; padding:16px 18px; border-radius:16px; border:1px solid rgba(210,200,180,0.5); transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.06)'; this.style.borderColor='#c29b38';" onmouseout="this.style.transform='none'; this.style.boxShadow='none'; this.style.borderColor='rgba(210,200,180,0.5)';">
+              <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+                <b style="color:#2b2b2b; font-size:15px; line-height:1.4; flex:1 1 auto;">⚡ Database System Design&nbsp;↗</b>
+                <span style="font-size:11px; background:#fffdfa; padding:3px 8px; border-radius:8px; color:#7a7365; border:1px solid #d0c8b6; white-space:nowrap; flex-shrink:0;">SQL / Database</span>
               </div>
               <p style="font-size:13px; color:#555045; line-height:1.6; margin:8px 0 0 0;">
-                DataBase Design - Online Rental Company
+                Relational Database Architecture & Schema Design for Online Equipment Rental Platform.
               </p>
             </div>
           </a>
@@ -758,13 +823,63 @@
     baseBorder.rotation.y = -Math.PI * 0.08;
     rugGroup.add(baseBorder);
 
-    // 水盆裝飾
-    const bowl = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.06, 0.04, 16), new THREE.MeshBasicMaterial({color: 0x90cdf4}));
-    bowl.position.set(0.48, 0.02, 0.22);
-    rugGroup.add(bowl);
-    const waterInBowl = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.07, 0.01, 16), new THREE.MeshBasicMaterial({color: 0x63b3ed}));
-    waterInBowl.position.set(0.48, 0.035, 0.22);
-    rugGroup.add(waterInBowl);
+    // ====================================================================
+    // 【全新升級】：精緻陶瓷貓糧兜 + 酥脆咖啡色大顆粒貓糧 (Cat Food Bowl & Kibble)
+    // ====================================================================
+    const foodBowlGroup = new THREE.Group();
+    foodBowlGroup.position.set(0.48, 0.012, 0.22);
+    rugGroup.add(foodBowlGroup);
+
+    // 1. 溫潤奶白色陶瓷貓糧盆外身 (上寬下窄帶斜度，立體感極佳)
+    const bowlOuterGeo = new THREE.CylinderGeometry(0.09, 0.065, 0.042, 24);
+    const bowlMat = new THREE.MeshStandardMaterial({
+      color: 0xfffaf0,      // 奶白色高質感陶瓷
+      roughness: 0.35,
+      metalness: 0.05
+    });
+    const bowlOuter = new THREE.Mesh(bowlOuterGeo, bowlMat);
+    bowlOuter.position.y = 0.021;
+    foodBowlGroup.add(bowlOuter);
+
+    // 2. 貓糧盆厚實加寬碗口翻邊 (陶器圓潤邊緣)
+    const rimGeo = new THREE.TorusGeometry(0.088, 0.01, 12, 24);
+    rimGeo.rotateX(Math.PI / 2);
+    const rim = new THREE.Mesh(rimGeo, bowlMat);
+    rim.position.y = 0.042;
+    foodBowlGroup.add(rim);
+
+    // 3. 貓糧底堆 (深咖啡色基底)
+    const kibbleBaseGeo = new THREE.CylinderGeometry(0.078, 0.06, 0.025, 18);
+    const kibbleBaseMat = new THREE.MeshStandardMaterial({
+      color: 0x4a2e18,      // 烘焙深咖啡色
+      roughness: 0.95
+    });
+    const kibbleBase = new THREE.Mesh(kibbleBaseGeo, kibbleBaseMat);
+    kibbleBase.position.y = 0.032;
+    foodBowlGroup.add(kibbleBase);
+
+    // 4. 滿滿一碗的咖啡色大顆粒貓糧 (多顆立體多邊形堆疊，顆粒感十足)
+    const kibblePelletGeo = new THREE.DodecahedronGeometry(0.015, 0); // 12 面體顆粒
+    const kibblePelletMat = new THREE.MeshStandardMaterial({
+      color: 0x5c381e,      // 酥脆烘焙棕色
+      roughness: 0.9,
+      flatShading: true     // 開啟扁平著色，增強顆粒稜角立體感
+    });
+
+    const pelletCount = 14;
+    for (let i = 0; i < pelletCount; i++) {
+      const pellet = new THREE.Mesh(kibblePelletGeo, kibblePelletMat);
+      const angle = Math.random() * Math.PI * 2;
+      const r = Math.random() * 0.055;
+      const px = Math.cos(angle) * r;
+      const pz = Math.sin(angle) * r;
+      const py = 0.038 + (1 - r / 0.06) * 0.012 + Math.random() * 0.005; // 中間高自然堆尖
+
+      pellet.position.set(px, py, pz);
+      pellet.rotation.set(Math.random() * Math.PI, Math.random() * Math.PI, Math.random() * Math.PI);
+      pellet.scale.set(0.9 + Math.random() * 0.3, 0.9 + Math.random() * 0.3, 0.9 + Math.random() * 0.3);
+      foodBowlGroup.add(pellet);
+    }
 
     /* --------------------------------------------------------------------
      * 3. 載入藍貓 (blue cat.glb)
