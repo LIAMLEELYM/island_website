@@ -402,6 +402,10 @@
       <button data-spot="spot2">知識庫</button>
       <button data-spot="spot3">過往項目</button>
       <button data-spot="cat_spot">島主芝麻</button>
+      <button class="lang-switch-btn" id="lang-btn" aria-label="Switch language">
+        <span class="lang-circle-icon">🌐</span>
+        <span class="lang-circle-txt" id="lang-txt">EN</span>
+      </button>
     </div>
   </nav>
 
@@ -471,7 +475,7 @@
           <div style="background:#f4eee1; padding:20px 18px; border-radius:18px; margin-bottom:16px; border:1px solid rgba(210,200,180,0.6);">
             <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
               <h3 style="font-size:16px; color:#2b2b2b; display:flex; align-items:center; gap:6px; margin:0;">💼 現時工作經歷</h3>
-              <span style="font-size:12px; color:#c29b38; font-weight:700;">2024 – Current</span>
+              <span style="font-size:12px; color:#c29b38; font-weight:700;">2021 – Current</span>
             </div>
 
             <div style="margin-bottom:16px;">
@@ -487,7 +491,7 @@
 
             <div style="margin-bottom:10px;">
               <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:4px; margin-bottom:4px;">
-                <span style="font-size:14px; font-weight:700; color:#2b2b2b; flex:1 1 200px;">CMHK | Business Development Operations</span>
+                <span style="font-size:14px; font-weight:700; color:#2b2b2b; flex:1 1 200px;">CLPS Global | Business Operations Officer</span>
                 <span style="font-size:12px; font-weight:600; color:#7a7365; white-space:nowrap;">2024.06 – 2025.06</span>
               </div>
               <p style="font-size:13px; line-height:1.7; color:#555045; margin:6px 0 0 0;">
@@ -560,7 +564,7 @@
             </div>
           </a>
 
-          <a href="https://x.com" target="_blank" rel="noopener noreferrer" style="text-decoration:none; display:block;">
+          <a href="https://liamworld.pages.dev" target="_blank" rel="noopener noreferrer" style="text-decoration:none; display:block;">
             <div style="background:#f4eee1; padding:16px 18px; border-radius:16px; border:1px solid rgba(210,200,180,0.5); transition:all 0.25s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 20px rgba(0,0,0,0.06)'; this.style.borderColor='#c29b38';" onmouseout="this.style.transform='none'; this.style.boxShadow='none'; this.style.borderColor='rgba(210,200,180,0.5)';">
               <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
                 <b style="color:#2b2b2b; font-size:15px; line-height:1.4; flex:1 1 auto;">🎨 打造個性化個人主頁（本網站）&nbsp;↗</b>
@@ -722,6 +726,8 @@
 
     const loadingScreen = document.getElementById('loading-screen');
     const loadingText = document.getElementById('loading-text');
+    const T = (zh, en) => (localStorage.getItem('lang') === 'en' ? en : zh);
+
     const progressFill = document.getElementById('progress-fill');
 
     /* --------------------------------------------------------------------
@@ -773,17 +779,17 @@
       (xhr) => {
         if (xhr.lengthComputable && xhr.total > 0) {
           const percent = Math.min(Math.round((xhr.loaded / xhr.total) * 100), 98);
-          if (loadingText) loadingText.innerText = `正在進入浮空小島 (${percent}%)...`;
+          if (loadingText) loadingText.innerText = T(`正在進入浮空小島 (${percent}%)...`, `Entering the floating island (${percent}%)...`);
           if (progressFill) progressFill.style.width = `${percent}%`;
         } else {
           const mb = (xhr.loaded / (1024 * 1024)).toFixed(1);
-          if (loadingText) loadingText.innerText = `正在載入模型資源 (${mb} MB)...`;
+          if (loadingText) loadingText.innerText = T(`正在載入模型資源 (${mb} MB)...`, `Loading model assets (${mb} MB)...`);
           if (progressFill) progressFill.style.width = '65%';
         }
       },
       (err) => {
         console.error('小島載入出錯：', err);
-        if (loadingText) loadingText.innerHTML = '<span style="color:#e53e3e">⚠️ 未找到 island.glb</span>';
+        if (loadingText) loadingText.innerHTML = `<span style="color:#e53e3e">⚠️ ${T('未找到 island.glb','island.glb not found')}</span>`;
       }
     );
 
@@ -910,7 +916,7 @@
             y: "+=0.15", duration: 3.5, repeat: -1, yoyo: true, ease: "sine.inOut"
           });
 
-          if (loadingText) loadingText.innerText = '正在進入浮空小島 (100%)...';
+          if (loadingText) loadingText.innerText = T('正在進入浮空小島 (100%)...', 'Entering the floating island (100%)...');
           if (progressFill) progressFill.style.width = '100%';
           setTimeout(() => {
             loadingScreen.style.opacity = '0';
@@ -920,7 +926,7 @@
         undefined,
         (err) => {
           console.warn('未載入到 blue cat.glb', err);
-          if (loadingText) loadingText.innerText = '正在進入浮空小島 (100%)...';
+          if (loadingText) loadingText.innerText = T('正在進入浮空小島 (100%)...', 'Entering the floating island (100%)...');
           if (progressFill) progressFill.style.width = '100%';
           setTimeout(() => {
             loadingScreen.style.opacity = '0';
@@ -1125,6 +1131,80 @@
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
+  
+    /* ===== 中 / EN 語言切換 ===== */
+    const EN = {
+      '關於我':'About Me','知識庫':'Knowledge','過往項目':'Projects','島主芝麻':'Sesame the Cat',
+      '浮空小島':'Floating Island',
+      '寫點東西，做點 Vibe Coding實驗。':'Writing things, running Vibe Coding experiments.',
+      '和我的貓，一起住在數字世界裡。':'Living in the digital world with my cat.',
+      '去島上逛逛':'Explore the Island',
+      '— AI 創作者 / 擁抱AI':'— AI Creator / Embracing AI',
+      '全島全景':'Overview',
+      '樹屋 · 關於我':'Treehouse · About Me','瀑布 · 知識庫':'Waterfall · Knowledge',
+      '後山 · 項目展':'Hillside · Projects','後山 · 過往項目':'Hillside · Past Projects',
+      '芝麻 · 來信交流':'Sesame · Contact','島主芝麻 · 來信交流':'Sesame · Contact',
+      '01 · 關於我':'01 · About Me','🏡 樹林小屋 · 個人履歷':'🏡 Forest Cabin · Resume',
+      '你好！我是':"Hi! I'm",
+      '，專注於 Vibe Coding、數據分析與企業自動化流程設計。':', focused on Vibe Coding, data analysis and enterprise automation design.',
+      '💼 現時工作經歷':'💼 Current Experience','2025.07 – 至今':'2025.07 – Present',
+      '• 跨團隊合作，設計端到端業務自動化流程，協助公司審批流程標準化。':'• Worked cross-functionally to design end-to-end business automation and standardize approval workflows.',
+      '• 持續優化基於 LLM 的候選人履歷解析系統，提升公司招募篩選人效。':'• Continuously improved an LLM-based resume parsing system to boost recruiting screening efficiency.',
+      '• 主導跨職能團隊建立了用於監控業務績效指標的標準化框架，為數據驅動的決策提供支援。':'• Led a cross-functional team to build a standardized framework for monitoring business KPIs, supporting data-driven decisions.',
+      '• 進行數據分析，識別流程瓶頸並實施解決方案，提升整個海外業務的整體營運效率。':'• Analyzed data to identify process bottlenecks and implemented solutions, improving overall operational efficiency of overseas business.',
+      '🎓 教育背景':'🎓 Education','理學碩士 (Master of Science)':'Master of Science',
+      '· 商業資訊系統 (Business Information Systems)':'· Business Information Systems',
+      '經濟學學士 (Bachelor of Economics)':'Bachelor of Economics','· 經濟學 (Economics)':'· Economics',
+      '🛠️ 核心技能':'🛠️ Core Skills','📄 下載完整 PDF 簡歷 ↗':'📄 Download full PDF resume ↗',
+      '02 · 知識庫':'02 · Knowledge','🏞️ 瀑布 · Vibe Coding':'🏞️ Waterfall · Vibe Coding',
+      '點擊卡片可直接跳轉我最近 Vibe Coding 的作品：':'Click a card to open my recent Vibe Coding work:',
+      '🤖 搭建前端和後端管理系統 ↗':'🤖 Front-end & Back-end Management System ↗',
+      '系統搭建':'System Build',
+      '利用 SupaBase 數據庫和搭建 API，實現高效的前端和後端管理系統。':'Built an efficient front-end and back-end management system with a SupaBase database and APIs.',
+      '🗒️ 旅遊攻略以及行程記錄 ↗':'🗒️ Travel Guides & Itineraries ↗','網站設計':'Web Design',
+      '通過 AI 搭建網站並加入衛星地圖元素，可視化我的旅遊攻略和行程記錄，更好地規劃旅程。':'An AI-built website with satellite-map elements that visualizes my travel guides and itineraries for better trip planning.',
+      '🎨 打造個性化個人主頁（本網站） ↗':'🎨 My Personal Homepage (this site) ↗','前端 3D':'Front-end 3D',
+      '從 0 到 1 透過 Three.js 與 AI 3D 生成工具打造專屬個人網站。':'Built from scratch with Three.js and AI 3D generation tools.',
+      '03 · 過往項目':'03 · Past Projects','⛰️ 後山小院 · 過往項目':'⛰️ Hillside Yard · Past Projects',
+      '點擊卡片可前往瀏覽以前的作品：':'Click a card to browse my earlier work:',
+      '🐾 首席島嶼保安大隊長':'🐾 Chief Island Security Captain',
+      '🐱 芝麻 · Sesame 的招待所':"🐱 Sesame's Guesthouse",
+      '歡迎造訪！如果你對 AI 應用、數據可視化或項目合作有興趣，歡迎隨時聯絡我：':'Welcome! If you are interested in AI applications, data visualization or collaboration, feel free to reach out:',
+      '📧 電子郵件 (Email)':'📧 Email',
+      '個人主頁':'Personal Homepage'
+    };
+    const origText = new WeakMap();
+    let curLang = localStorage.getItem('lang') === 'en' ? 'en' : 'zh';
+    const langBtn = document.getElementById('lang-btn');
+    const langTxt = document.getElementById('lang-txt');
+
+    function translateTree(root) {
+      const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+      let n;
+      while ((n = w.nextNode())) {
+        const tag = n.parentNode && n.parentNode.nodeName;
+        if (tag === 'SCRIPT' || tag === 'STYLE') continue;
+        if (!origText.has(n)) origText.set(n, n.nodeValue);
+        const o = origText.get(n);
+        const t = o.trim();
+        const k = t.replace(/\u00a0/g, ' ');
+        n.nodeValue = (curLang === 'en' && EN[k]) ? o.replace(t, EN[k]) : o;
+      }
+    }
+    function applyLang() {
+      translateTree(document.body);
+      langTxt.textContent = curLang === 'en' ? '中' : 'EN';
+      document.documentElement.lang = curLang === 'en' ? 'en' : 'zh-Hant';
+      document.title = curLang === 'en' ? "Liam's Floating Island | Personal Homepage" : "Liam's 浮空小島 | 個人主頁";
+    }
+    langBtn.addEventListener('click', () => {
+      curLang = curLang === 'en' ? 'zh' : 'en';
+      localStorage.setItem('lang', curLang);
+      applyLang();
+    });
+    new MutationObserver(() => { if (curLang === 'en') translateTree(modalContent); })
+      .observe(modalContent, { childList: true });
+    applyLang();
   </script>
 </body>
 </html>
