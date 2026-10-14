@@ -229,8 +229,29 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
+    
+    /* 載入進度條樣式 */
+    .progress-bar-container {
+      width: 200px;
+      height: 6px;
+      background: #e2d9c8;
+      border-radius: 4px;
+      margin-top: 14px;
+      overflow: hidden;
+      position: relative;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #c29b38, #dd6b20);
+      border-radius: 4px;
+      transition: width 0.15s ease-out;
+    }
+
+/* ====================================================================
+     * 【手機端雙排導航 + 避免文字擁擠重疊】
+     * ==================================================================== */
     @media (max-width: 768px) {
-      /* 頂部極簡導航 */
       nav.top-nav { height: 50px; padding: 0 16px; }
       .brand-logo h1 { font-size: 16px; letter-spacing: 1.5px; }
       .brand-logo span { font-size: 9px; padding-left: 6px; }
@@ -238,9 +259,8 @@
       .nav-links button:not(.lang-switch-btn) { display: none; }
       .lang-switch-btn { margin-left: 0; padding: 4px 10px !important; font-size: 11px !important; }
 
-      /* 左側文字收窄置頂，留出下半部空間給 3D 小島 */
       .hero-container {
-        top: 56px !important;
+        top: 54px !important;
         left: 18px !important;
         right: 18px !important;
         transform: none !important;
@@ -258,7 +278,6 @@
       .hero-cta { padding: 6px 14px !important; font-size: 11px !important; border-radius: 18px !important; }
       .hero-footer-tag { display: none !important; }
 
-      /* 3D 懸浮標籤縮小，避免互相擠壓 */
       .pin-label {
         padding: 3px 8px !important;
         font-size: 11px !important;
@@ -266,38 +285,43 @@
       }
       .pin-num { width: 14px !important; height: 14px !important; font-size: 9px !important; }
 
-      /* 底部膠囊導航：自適應等分 100% 寬度，絕不截斷！ */
+      /* 手機端底部導航欄：美觀兩排排列 (第一排 2 個，第二排 3 個)，字體不重疊、寬敞舒適！ */
       .bottom-capsule-bar {
-        bottom: 12px !important;
+        bottom: 16px !important;
         left: 50% !important;
         transform: translateX(-50%) !important;
-        width: calc(100vw - 16px) !important;
-        max-width: 440px !important;
-        padding: 4px !important;
-        border-radius: 30px !important;
+        width: calc(100vw - 24px) !important;
+        max-width: 380px !important;
+        padding: 6px 8px !important;
+        border-radius: 20px !important;
         display: flex !important;
-        justify-content: space-between !important;
-        gap: 2px !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 6px !important;
         box-shadow: 0 6px 20px rgba(0,0,0,0.08) !important;
       }
       .capsule-btn {
-        padding: 6px 4px !important;
-        font-size: 11px !important;
-        border-radius: 18px !important;
-        flex: 1 1 0px !important;
-        min-width: 0 !important;
-        justify-content: center !important;
-        gap: 2px !important;
+        padding: 6px 10px !important;
+        font-size: 12px !important;
+        border-radius: 14px !important;
+        flex: 0 1 auto !important;
         white-space: nowrap !important;
+        background: rgba(255, 255, 255, 0.6) !important;
       }
-      .capsule-btn span.num { font-size: 10px !important; }
+      .capsule-btn.active {
+        background: #252422 !important;
+      }
+      .capsule-btn span.num { font-size: 11px !important; }
     }
   </style>
 </head>
 <body>
   <div id="loading-screen">
     <div class="spinner"></div>
-    <div id="loading-text" style="color: var(--text-sub); font-size: 15px; letter-spacing: 1px;">正在進入浮空小島...</div>
+    <div id="loading-text" style="color: var(--text-sub); font-size: 15px; font-weight:600; letter-spacing: 1px;">正在進入浮空小島 (0%)...</div>
+    <div class="progress-bar-container">
+      <div class="progress-bar-fill" id="progress-fill"></div>
+    </div>
   </div>
 
   <div id="canvas-container"></div>
@@ -587,13 +611,9 @@
     scene.background = new THREE.Color(0xf4eee1);
 
     const camera = new THREE.PerspectiveCamera(42, window.innerWidth / window.innerHeight, 0.1, 1000);
-
-    // 【手機端專屬位移】：X 居中，Y 軸大幅下移 2.8 單位，鏡頭拉遠拉高，徹底避開頂部文字！
     const islandOffsetX = isMobile ? 0 : 5.2;
-    const islandOffsetY = isMobile ? -2.8 : 0;
-
-    const defaultCamPos = isMobile ? { x: 0, y: 15, z: 32 } : { x: -2.0, y: 11, z: 24 };
-    const defaultTarget = isMobile ? { x: 0, y: -2.5, z: 0 } : { x: islandOffsetX, y: 0.6, z: 0 };
+    const defaultCamPos = isMobile ? { x: 0, y: 13, z: 28 } : { x: -2.0, y: 11, z: 24 };
+    const defaultTarget = isMobile ? { x: 0, y: -0.5, z: 0 } : { x: islandOffsetX, y: 0.6, z: 0 };
     camera.position.set(defaultCamPos.x, defaultCamPos.y, defaultCamPos.z);
 
     const renderer = new THREE.WebGLRenderer({ 
@@ -623,7 +643,7 @@
     scene.add(sunLight);
 
     const islandGroup = new THREE.Group();
-    islandGroup.position.set(islandOffsetX, islandOffsetY, 0);
+    islandGroup.position.set(islandOffsetX, isMobile ? -1.2 : 0, 0);
     scene.add(islandGroup);
 
     let mixerIsland = null;
@@ -637,9 +657,10 @@
 
     const loadingScreen = document.getElementById('loading-screen');
     const loadingText = document.getElementById('loading-text');
+    const progressFill = document.getElementById('progress-fill');
 
     /* --------------------------------------------------------------------
-     * 1. 載入小島模型 (island.glb)
+     * 1. 載入小島模型 (island.glb) 帶即時百分比進度回饋
      * -------------------------------------------------------------------- */
     loader.load(
       'island.glb',
@@ -684,10 +705,20 @@
 
         loadCatModel();
       },
-      undefined,
+      (xhr) => {
+        if (xhr.lengthComputable && xhr.total > 0) {
+          const percent = Math.min(Math.round((xhr.loaded / xhr.total) * 100), 98);
+          if (loadingText) loadingText.innerText = `正在進入浮空小島 (${percent}%)...`;
+          if (progressFill) progressFill.style.width = `${percent}%`;
+        } else {
+          const mb = (xhr.loaded / (1024 * 1024)).toFixed(1);
+          if (loadingText) loadingText.innerText = `正在載入模型資源 (${mb} MB)...`;
+          if (progressFill) progressFill.style.width = '65%';
+        }
+      },
       (err) => {
         console.error('小島載入出錯：', err);
-        loadingText.innerHTML = '<span style="color:#e53e3e">⚠️ 未找到 island.glb</span>';
+        if (loadingText) loadingText.innerHTML = '<span style="color:#e53e3e">⚠️ 未找到 island.glb</span>';
       }
     );
 
@@ -764,14 +795,22 @@
             y: "+=0.15", duration: 3.5, repeat: -1, yoyo: true, ease: "sine.inOut"
           });
 
-          loadingScreen.style.opacity = '0';
-          setTimeout(() => { loadingScreen.style.display = 'none'; }, 500);
+          if (loadingText) loadingText.innerText = '正在進入浮空小島 (100%)...';
+          if (progressFill) progressFill.style.width = '100%';
+          setTimeout(() => {
+            loadingScreen.style.opacity = '0';
+            setTimeout(() => { loadingScreen.style.display = 'none'; }, 500);
+          }, 250);
         },
         undefined,
         (err) => {
           console.warn('未載入到 blue cat.glb', err);
-          loadingScreen.style.opacity = '0';
-          setTimeout(() => { loadingScreen.style.display = 'none'; }, 500);
+          if (loadingText) loadingText.innerText = '正在進入浮空小島 (100%)...';
+          if (progressFill) progressFill.style.width = '100%';
+          setTimeout(() => {
+            loadingScreen.style.opacity = '0';
+            setTimeout(() => { loadingScreen.style.display = 'none'; }, 500);
+          }, 250);
         }
       );
     }
@@ -933,7 +972,7 @@
 
       controls.update();
 
-      islandGroup.position.y = islandOffsetY + Math.sin(Date.now() * 0.0015) * 0.08;
+      islandGroup.position.y = (isMobile ? -1.2 : 0) + Math.sin(Date.now() * 0.0015) * 0.08;
 
       for (let i = 0; i < animatedWaterMaterials.length; i++) {
         animatedWaterMaterials[i].offset.y += 0.003;
