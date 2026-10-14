@@ -229,32 +229,99 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
+    
+    /* 載入進度條樣式 */
+    .progress-bar-container {
+      width: 200px;
+      height: 6px;
+      background: #e2d9c8;
+      border-radius: 4px;
+      margin-top: 14px;
+      overflow: hidden;
+      position: relative;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #c29b38, #dd6b20);
+      border-radius: 4px;
+      transition: width 0.15s ease-out;
+    }
+
+/* ====================================================================
+     * 【手機端雙排導航 + 避免文字擁擠重疊】
+     * ==================================================================== */
     @media (max-width: 768px) {
-      .top-nav { height: 60px; padding: 0 16px; }
-      .nav-links { display: none; }
+      nav.top-nav { height: 50px; padding: 0 16px; }
+      .brand-logo h1 { font-size: 16px; letter-spacing: 1.5px; }
+      .brand-logo span { font-size: 9px; padding-left: 6px; }
+      .nav-links { display: flex !important; }
+      .nav-links button:not(.lang-switch-btn) { display: none; }
+      .lang-switch-btn { margin-left: 0; padding: 4px 10px !important; font-size: 11px !important; }
 
       .hero-container {
-        top: 80px; left: 16px; right: 16px; transform: none;
-        width: calc(100vw - 32px); min-width: unset; max-width: unset;
+        top: 54px !important;
+        left: 18px !important;
+        right: 18px !important;
+        transform: none !important;
+        width: calc(100vw - 36px) !important;
+        min-width: unset !important;
+        max-width: unset !important;
         text-align: left;
+        pointer-events: none;
       }
-      .hero-title { font-size: 28px; margin-bottom: 10px; }
-      .hero-desc { font-size: 13px; line-height: 1.6; margin-bottom: 14px; }
-      .hero-cta { padding: 8px 18px; font-size: 12px; }
-      .hero-footer-tag { display: none; }
+      .hero-subtag { font-size: 10px; margin-bottom: 6px; letter-spacing: 1.5px; }
+      .hero-subtag::before { width: 14px; }
+      .hero-title { font-size: 24px !important; line-height: 1.18; margin-bottom: 6px !important; }
+      .hero-title .sparkle { font-size: 18px; }
+      .hero-desc { font-size: 12px !important; line-height: 1.5; margin-bottom: 10px !important; }
+      .hero-cta { padding: 6px 14px !important; font-size: 11px !important; border-radius: 18px !important; }
+      .hero-footer-tag { display: none !important; }
 
-      .bottom-capsule-bar {
-        bottom: 16px; padding: 4px 8px; gap: 4px;
+      .pin-label {
+        padding: 3px 8px !important;
+        font-size: 11px !important;
+        border-radius: 14px !important;
       }
-      .capsule-btn { padding: 6px 12px; font-size: 12px; }
-      .pin-label { padding: 4px 8px; font-size: 11px; }
+      .pin-num { width: 14px !important; height: 14px !important; font-size: 9px !important; }
+
+      /* 手機端底部導航欄：美觀兩排排列 (第一排 2 個，第二排 3 個)，字體不重疊、寬敞舒適！ */
+      .bottom-capsule-bar {
+        bottom: 16px !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        width: calc(100vw - 24px) !important;
+        max-width: 380px !important;
+        padding: 6px 8px !important;
+        border-radius: 20px !important;
+        display: flex !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 6px !important;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.08) !important;
+      }
+      .capsule-btn {
+        padding: 6px 10px !important;
+        font-size: 12px !important;
+        border-radius: 14px !important;
+        flex: 0 1 auto !important;
+        white-space: nowrap !important;
+        background: rgba(255, 255, 255, 0.6) !important;
+      }
+      .capsule-btn.active {
+        background: #252422 !important;
+      }
+      .capsule-btn span.num { font-size: 11px !important; }
     }
   </style>
 </head>
 <body>
   <div id="loading-screen">
     <div class="spinner"></div>
-    <div id="loading-text" style="color: var(--text-sub); font-size: 15px; letter-spacing: 1px;">正在進入浮空小島...</div>
+    <div id="loading-text" style="color: var(--text-sub); font-size: 15px; font-weight:600; letter-spacing: 1px;">正在進入浮空小島 (0%)...</div>
+    <div class="progress-bar-container">
+      <div class="progress-bar-fill" id="progress-fill"></div>
+    </div>
   </div>
 
   <div id="canvas-container"></div>
@@ -367,7 +434,7 @@
 
             <h3 style="font-size:16px; color:#2b2b2b; margin-bottom:10px; display:flex; align-items:center; gap:6px;">🎓 教育背景</h3>
             <p style="font-size:13px; line-height:1.8; color:#555045; margin:0;">
-              • <b>理學碩士 (Master of Science)</b> · 商業資訊系統 (Business Information Systems)<br>
+              • <b>理學碩士 (Master of Science)</b> · 商業資訊系統 (Busniess Information Systems)<br>
               • <b>經濟學學士 (Bachelor of Economics)</b> · 經濟學 (Economics)
             </p>
 
@@ -590,9 +657,10 @@
 
     const loadingScreen = document.getElementById('loading-screen');
     const loadingText = document.getElementById('loading-text');
+    const progressFill = document.getElementById('progress-fill');
 
     /* --------------------------------------------------------------------
-     * 1. 載入小島模型 (island.glb)
+     * 1. 載入小島模型 (island.glb) 帶即時百分比進度回饋
      * -------------------------------------------------------------------- */
     loader.load(
       'island.glb',
@@ -637,10 +705,20 @@
 
         loadCatModel();
       },
-      undefined,
+      (xhr) => {
+        if (xhr.lengthComputable && xhr.total > 0) {
+          const percent = Math.min(Math.round((xhr.loaded / xhr.total) * 100), 98);
+          if (loadingText) loadingText.innerText = `正在進入浮空小島 (${percent}%)...`;
+          if (progressFill) progressFill.style.width = `${percent}%`;
+        } else {
+          const mb = (xhr.loaded / (1024 * 1024)).toFixed(1);
+          if (loadingText) loadingText.innerText = `正在載入模型資源 (${mb} MB)...`;
+          if (progressFill) progressFill.style.width = '65%';
+        }
+      },
       (err) => {
         console.error('小島載入出錯：', err);
-        loadingText.innerHTML = '<span style="color:#e53e3e">⚠️ 未找到 island.glb</span>';
+        if (loadingText) loadingText.innerHTML = '<span style="color:#e53e3e">⚠️ 未找到 island.glb</span>';
       }
     );
 
@@ -717,14 +795,22 @@
             y: "+=0.15", duration: 3.5, repeat: -1, yoyo: true, ease: "sine.inOut"
           });
 
-          loadingScreen.style.opacity = '0';
-          setTimeout(() => { loadingScreen.style.display = 'none'; }, 500);
+          if (loadingText) loadingText.innerText = '正在進入浮空小島 (100%)...';
+          if (progressFill) progressFill.style.width = '100%';
+          setTimeout(() => {
+            loadingScreen.style.opacity = '0';
+            setTimeout(() => { loadingScreen.style.display = 'none'; }, 500);
+          }, 250);
         },
         undefined,
         (err) => {
           console.warn('未載入到 blue cat.glb', err);
-          loadingScreen.style.opacity = '0';
-          setTimeout(() => { loadingScreen.style.display = 'none'; }, 500);
+          if (loadingText) loadingText.innerText = '正在進入浮空小島 (100%)...';
+          if (progressFill) progressFill.style.width = '100%';
+          setTimeout(() => {
+            loadingScreen.style.opacity = '0';
+            setTimeout(() => { loadingScreen.style.display = 'none'; }, 500);
+          }, 250);
         }
       );
     }
